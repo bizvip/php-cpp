@@ -1,16 +1,16 @@
 CPP             = g++
 RM              = rm -f
-CPP_FLAGS       = -Wall -c -I. -I/home/work/include/ -O2 -std=c++11
+CPP_FLAGS       = -Wall -c -I. -I/opt/homebrew/Cellar/php/8.2.6/include/php -O2 -std=c++11
 
-PREFIX			= /home/work/
+PREFIX			= /opt/homebrew/Cellar/php/8.2.6/
 
 #Edit these lines to correspond with your own directories
-LIBRARY_DIR		= ${PREFIX}/local/php/lib/php/extensions/no-debug-non-zts-20090626/
+LIBRARY_DIR		= /opt/homebrew/lib/php/pecl/20220829/
 
-PHP_CONFIG_DIR	= /home/work/local/php/lib/
+PHP_CONFIG_DIR = /opt/homebrew/etc/php/8.2/
 
 LD              = g++
-LD_FLAGS        = -Wall -Wl,-rpath,/home/work/lib -shared -O2 -L/home/work/lib
+LD_FLAGS        = -Wall -Wl,-rpath,/opt/homebrew/Cellar/php/8.2.6/lib -shared -O2 -L/opt/homebrew/Cellar/php/8.2.6/lib
 RESULT          = simple.so
 
 PHPINIFILE		= 30-phpcpp.ini

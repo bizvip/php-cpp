@@ -17,7 +17,7 @@
 #   installed in the default directory, you can change that here.
 #
 
-PHP_CONFIG			=	php-config
+PHP_CONFIG			=	/opt/homebrew/Cellar/php/8.2.6/bin/php-config
 UNAME 				:= 	$(shell uname)
 
 #

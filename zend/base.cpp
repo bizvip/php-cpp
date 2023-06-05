@@ -277,7 +277,8 @@ Php::Value Base::__count(Php::Parameters &params)
     if (countable == nullptr) return 0;
 
     // pass the call to the interface
-    return countable->count();
+    //return countable->count();
+    return Php::Value(static_cast<int64_t>(countable->count()));
 }
 
 /**
