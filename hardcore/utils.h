@@ -1,7 +1,3 @@
-//
-// Created by C Archer on 6/6/23.
-//
-
 #ifndef PHP_CPP_UTILS_H
 #define PHP_CPP_UTILS_H
 
@@ -10,30 +6,36 @@
 
 #include <phpcpp.h>
 
-class Utils : public Php::Base {
-public:
-    /**
-     *  Static method: pure
-     */
-    static Php::Value pure(Php::Parameters &params) {
-        Php::Value v = params[0];
+namespace Hardcore {
+    class Utils : public Php::Base {
+    public:
+        Php::Value pure(Php::Parameters &parameters) {
+            Php::Value v = parameters[0];
 
-        if (!v.isScalar()) {
-            return v;
+            // handle non-scalar values
+            if (!v.isScalar()) {
+                return v;
+            }
+
+            // handle integer, boolean and resource values
+            bool isResource = Php::call("is_resource", v).boolValue();
+            if (v.isNumeric() || v.isBool() || isResource) {
+                return v;
+            }
+
+            // handle string values
+            if (v.isString()) {
+                std::string str = v.stringValue();
+                str.erase(std::remove(str.begin(), str.end(), ' '), str.end());
+                str.erase(std::remove(str.begin(), str.end(), '\''), str.end());
+                str.erase(std::remove(str.begin(), str.end(), '\"'), str.end());
+                str.erase(std::remove(str.begin(), str.end(), '\r'), str.end());
+                str.erase(std::remove(str.begin(), str.end(), '\t'), str.end());
+                str.erase(std::remove(str.begin(), str.end(), '\n'), str.end());
+                return str;
+            }
+
+            return nullptr;
         }
-
-        bool isResource = Php::call("is_resource", v);
-        if (v.isNumeric() || v.isBool() || isResource) {
-            return v;
-        }
-
-        // is_array or is_object
-        std::string str = v.stringValue();
-        str.erase(std::remove_if(str.begin(), str.end(), [](char c) {
-            return std::isspace(static_cast<unsigned char>(c)) || c == '\'' || c == '\"' || c == '\r' || c == '\t' ||
-                   c == '\n';
-        }), str.end());
-
-        return str;
-    }
-};
+    };
+}
